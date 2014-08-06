@@ -1,42 +1,5 @@
-/**
- * ofxPuffersphere
- *	
- * Copyright (c) 2011 Flightphase
- *
- * implementaiton by James George (@obviousjim) and Tim Gfrerer (@tgfrerer) for the 
- * Voyagers gallery National Maritime Museum 
- * 
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following
- * conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
- * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
- * OTHER DEALINGS IN THE SOFTWARE.
- *
- * ----------------------
- *
- * ofxPuffersphere 
- * Allows you to draw an arbitrary objects onto the puffersphere!
- * Since this screen is spherical, you don't specify a x/y location like normal, instead you specify
- * a rotation from the center to move this object to.
- *
- */
-
 #include "ofxPuffersphere.h"
+
 
 ofxPuffersphere::ofxPuffersphere(){
 	offaxisLocation = "offaxis";
@@ -63,21 +26,20 @@ void ofxPuffersphere::setup(float s){
 }
 
 
-#ifdef USE_SIMPLE_GUI
-void ofxPuffersphere::addGuiParams(string paramXMLPath){
-	ofxSimpleGuiPage& pufferpage = gui.addPage("Custom Pufferspher Settings");
-	if(paramXMLPath != ""){
-		pufferpage.setXMLName(paramXMLPath);
-	}
+void ofxPuffersphere::addGuiParams(){
+	ofxGuiSetDefaultWidth(320);
+	ofxGuiSetDefaultHeight(30);
 
-	gui.addToggle("Render For Puffersphere", renderForPuffersphere);
-	gui.addSlider("fov", sphereShaderSettings.fov, 1., 359.);
-	gui.addSlider("Z", sphereShaderSettings.Z, 0., 1000);
-	gui.addSlider("Lens Correction A",sphereShaderSettings.shaderLensCorrection.x, 0.8,1.5);
-	gui.addSlider("Lens Correction B",sphereShaderSettings.shaderLensCorrection.y, 0.0012,0.1212);
-	gui.addSlider("Lens Correction C",sphereShaderSettings.shaderLensCorrection.z, 0.15,0.44);
+	gui.setHeaderBackgroundColor(ofColor::darkRed);
+	gui.setup("Custom Pufferspher Settings","customPufferspherSetting.xml");
+
+	gui.add(renderForPuffersphere.set("Render For Puffersphere",false));
+	gui.add(sphereShaderSettings.fov.set("fov",1.0,1.0,359.0));
+	gui.add(sphereShaderSettings.Z.set("Z",0.0,0.0,1000.0));
+	gui.add(sphereShaderSettings.shaderLensCorrection.set("Lens Correction",ofVec3f(0.8,0.0012,0.15),ofVec3f(0.8,0.0012,0.15),ofVec3f(1.5,0.1212,0.44)));
+
+	gui.loadFromFile("customPufferspherSetting.xml");
 }
-#endif
 
 ofxPuffersphereObject* ofxPuffersphere::createObject(){
 	ofxPuffersphereObject* object = new ofxPuffersphereObject();
@@ -146,7 +108,7 @@ void ofxPuffersphere::draw(){
 		spherize.setUniform2f("imageSize", float(canvas.getWidth()), float(canvas.getHeight()));
 		spherize.setUniform1f("fov", sphereShaderSettings.fov);
 		spherize.setUniform1f("Z", sphereShaderSettings.Z);
-		spherize.setUniform3f("lensCorr", sphereShaderSettings.shaderLensCorrection.x,sphereShaderSettings.shaderLensCorrection.y,sphereShaderSettings.shaderLensCorrection.z);
+		spherize.setUniform3f("lensCorr", sphereShaderSettings.shaderLensCorrection.get().x,sphereShaderSettings.shaderLensCorrection.get().y,sphereShaderSettings.shaderLensCorrection.get().z);
 		
 		//centered
 		canvas.draw(ofGetWidth()/2.-canvas.getWidth()/2., ofGetHeight()/2.-canvas.getHeight()/2.);
@@ -182,9 +144,9 @@ void ofxPuffersphere::drawSphere(ofVec3f position, float scale){
 
     canvas.getTextureReference(0).bind();
 
-	float verts[(segments+1)*2*3];
-	float normals[(segments+1)*2*3];
-	float texCoords[(segments+1)*2*2];
+	float * verts = new float[(segments+1)*2*3];
+	float * normals = new float[(segments+1)*2*3];
+	float * texCoords = new float[(segments+1)*2*2];
 
 	// TG. not pushing/popping this bit leads to weird things in the fbo drawn after
 	glPushAttrib(GL_DEPTH_BUFFER_BIT);

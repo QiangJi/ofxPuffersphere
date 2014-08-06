@@ -1,3 +1,5 @@
+#extension GL_ARB_texture_rectangle : enable
+
 uniform sampler2DRect tex; //our image we are drawing
 
 uniform vec2 textureDimensions;

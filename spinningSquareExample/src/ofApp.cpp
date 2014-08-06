@@ -1,7 +1,7 @@
-#include "testApp.h"
+#include "ofApp.h"
 
 //--------------------------------------------------------------
-void testApp::setup(){
+void ofApp::setup(){
 
 	ofEnableAlphaBlending();
 	ofEnableSmoothing();
@@ -27,14 +27,11 @@ void testApp::setup(){
 	//ofxPuffersphere manages all the internal objects so when you call ->render and ->draw they all show up
 	
 	drawSphere = false;
-	
-    gui.loadFromXML();
-	gui.toggleDraw();
 }
 
 
 //--------------------------------------------------------------
-void testApp::update(){
+void ofApp::update(){
 	ofQuaternion bgquad;
 	bgquad.makeRotate(-ofGetFrameNum()/10.0, 0, 0, 1);
 	fullscaleBG->rotation = bgquad;
@@ -54,7 +51,7 @@ void testApp::update(){
 }
 
 //--------------------------------------------------------------
-void testApp::draw(){
+void ofApp::draw(){
 	ofBackground(255);
 	
 	if(drawSphere){
@@ -65,46 +62,46 @@ void testApp::draw(){
 	}
 
 	ofPushStyle();
-	gui.draw();
+	puffersphere->gui.draw();
 	ofEnableAlphaBlending();
 	ofPopStyle();
 }
 
 //--------------------------------------------------------------
-void testApp::keyPressed(int key){
+void ofApp::keyPressed(int key){
 	if(key == 'p'){
 		drawSphere = !drawSphere;
 	}
 }
 
 //--------------------------------------------------------------
-void testApp::keyReleased(int key){
+void ofApp::keyReleased(int key){
 
 }
 
 //--------------------------------------------------------------
-void testApp::mouseMoved(int x, int y ){
+void ofApp::mouseMoved(int x, int y ){
 
 }
 
 //--------------------------------------------------------------
-void testApp::mouseDragged(int x, int y, int button){
+void ofApp::mouseDragged(int x, int y, int button){
 
 }
 
 //--------------------------------------------------------------
-void testApp::mousePressed(int x, int y, int button){
+void ofApp::mousePressed(int x, int y, int button){
 
 
 }
 
 //--------------------------------------------------------------
-void testApp::mouseReleased(int x, int y, int button){
+void ofApp::mouseReleased(int x, int y, int button){
 
 }
 
 //--------------------------------------------------------------
-void testApp::windowResized(int w, int h){
+void ofApp::windowResized(int w, int h){
 
 }
 
