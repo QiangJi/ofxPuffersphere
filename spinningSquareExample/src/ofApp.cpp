@@ -17,7 +17,8 @@ void ofApp::setup(){
 	
 	//create assets like this if you're using normal images
 	fullscaleBG = puffersphere->createObject("spherical.png");
-	videoQuad = puffersphere->createObject("video_frame.png");
+	//videoQuad = puffersphere->createObject("video_frame.png");
+	videoQuad = puffersphere->createObjectFromVideoPath("test.mov");
 	//videoQuad->scale = ofVec2f(.5, .5);
 	
 	//but if you're using your own, then do it like this:
@@ -55,7 +56,7 @@ void ofApp::draw(){
 	ofBackground(255);
 	
 	if(drawSphere){
-		puffersphere->drawSphere(ofVec3f( ofGetWidth()/2.0, ofGetHeight()/2.0, 10) );
+		puffersphere->drawSphere(ofVec3f(ofGetWidth()/2.0, ofGetHeight()/2.0, 10));
 	}
 	else{
 		puffersphere->draw();

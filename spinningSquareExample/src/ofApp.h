@@ -23,9 +23,9 @@ class ofApp : public ofBaseApp{
 
 	
 	bool drawSphere;
-	ofxPuffersphere* puffersphere;
-	ofxPuffersphereObject* videoQuad;
-	ofxPuffersphereObject* fullscaleBG;
+	ofxPuffersphere * puffersphere;
+	ofxPuffersphereObject * videoQuad;
+	ofxPuffersphereObject * fullscaleBG;
 
 };
 
