@@ -17,8 +17,8 @@ void ofApp::setup(){
 	
 	//create assets like this if you're using normal images
 	fullscaleBG = puffersphere->createObject("spherical.png");
-	//videoQuad = puffersphere->createObject("video_frame.png");
-	videoQuad = puffersphere->createObjectFromVideoPath("test.mov");
+	videoQuad = puffersphere->createObject("video_frame.png");
+	//videoQuad = puffersphere->createObjectFromVideoPath("test.mov");
 	//videoQuad->scale = ofVec2f(.5, .5);
 	
 	//but if you're using your own, then do it like this:
@@ -45,8 +45,8 @@ void ofApp::update(){
 	
 	
 	//you can also do things like this to change the color
-//	videoQuad->makeTransparent();
-//	videoQuad->tint = ofColor(1.0, 0., 0. 1.0);
+	//videoQuad->makeTransparent();
+	//videoQuad->tint = ofColor(1.0, 0.0, 0.0 ,1.0);
 	
 	puffersphere->render();
 }
